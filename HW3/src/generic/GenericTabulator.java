@@ -23,7 +23,7 @@ public class GenericTabulator implements Tabulator {
         Operation<?> result;
         switch (mode) {
             case ("i"):
-                result = new IntegerOperation();
+                result = new IntegerOperation(false);
                 break;
             case ("d"):
                 result = new DoubleOperation();
@@ -34,8 +34,14 @@ public class GenericTabulator implements Tabulator {
             case ("l"):
                 result = new LongOperation();
                 break;
-            case ("s"):
-                result = new IntegerOperation();
+            case ("u"):
+                result = new IntegerOperation(true);
+                break;
+            case ("f"):
+                result = new FloatOperation();
+                break;
+            case ("b"):
+                result = new ByteOperation();
                 break;
             default:
                 result = null;
@@ -56,9 +62,9 @@ public class GenericTabulator implements Tabulator {
         try {
             currentExpression = parser.parse(expression);
         } catch (ParsingException | OverflowException e) {
-            e.printStackTrace();
             return res;
         }
+
 
         for (int i = x1; i <= x2; i++) {
             for (int j = y1; j <= y2; j++) {

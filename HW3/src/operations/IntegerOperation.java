@@ -9,6 +9,11 @@ import exceptions.OverflowException;
  * @author Nikolay Yarlychenko
  */
 public class IntegerOperation implements Operation<Integer> {
+    boolean isChecked;
+
+    public IntegerOperation(boolean isChecked) {
+        this.isChecked = isChecked;
+    }
 
     private void checkAdd(int x, int y) throws OverflowException {
         if (x > 0 && Integer.MAX_VALUE - x < y) {
@@ -45,7 +50,7 @@ public class IntegerOperation implements Operation<Integer> {
         if (y == 0) {
             throw new IllegalOperationException("Division by zero");
         }
-        if (x == Integer.MIN_VALUE && y == -1) {
+        if (!isChecked && x == Integer.MIN_VALUE && y == -1) {
             throw new OverflowException();
         }
     }
@@ -58,19 +63,25 @@ public class IntegerOperation implements Operation<Integer> {
 
     @Override
     public Integer add(Integer x, Integer y) throws OverflowException {
-        checkAdd(x, y);
+        if (!isChecked) {
+            checkAdd(x, y);
+        }
         return x + y;
     }
 
     @Override
     public Integer sub(Integer x, Integer y) throws OverflowException {
-        checkSub(x, y);
+        if (!isChecked) {
+            checkSub(x, y);
+        }
         return x - y;
     }
 
     @Override
     public Integer mul(Integer x, Integer y) throws OverflowException {
-        checkMul(x, y);
+        if (!isChecked) {
+            checkMul(x, y);
+        }
         return x * y;
     }
 
@@ -82,7 +93,9 @@ public class IntegerOperation implements Operation<Integer> {
 
     @Override
     public Integer neg(Integer x) throws OverflowException {
-        checkNegate(x);
+        if (!isChecked) {
+            checkNegate(x);
+        }
         return -x;
     }
 
@@ -98,7 +111,8 @@ public class IntegerOperation implements Operation<Integer> {
         return mul(x, x);
     }
 
-    public Integer mod(Integer x, Integer y) {
+    public Integer mod(Integer x, Integer y) throws OverflowException, IllegalOperationException {
+        checkDiv(x,y);
         return x % y;
     }
 
@@ -109,7 +123,6 @@ public class IntegerOperation implements Operation<Integer> {
             return Integer.parseInt(s);
         } catch (NumberFormatException e) {
             throw new EvaluateException("Number format error");
-
         }
     }
 }

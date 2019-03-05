@@ -18,7 +18,6 @@ public interface Operation<T> {
 
     T neg(T x) throws OverflowException;
 
-
     T abs(T x) throws OverflowException;
 
     T square(T x) throws OverflowException;
