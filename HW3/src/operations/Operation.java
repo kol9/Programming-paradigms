@@ -18,5 +18,12 @@ public interface Operation<T> {
 
     T neg(T x) throws OverflowException;
 
-    T parseNumber(String s);
+
+    T abs(T x) throws OverflowException;
+
+    T square(T x) throws OverflowException;
+
+    T mod(T x, T y) throws EvaluateException;
+
+    T toCurrentMode(String s) throws EvaluateException;
 }

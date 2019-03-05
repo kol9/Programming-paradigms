@@ -18,11 +18,11 @@ public class Tokenizer<T> {
     private T value;
     private String varName;
     private Set<Token> defaultOperations = EnumSet.of(Token.ADD, Token.MUL, Token.DIV, Token.SUB);
-    private Set<Token> specialOperations = EnumSet.of(Token.ABS);
+    private Set<Token> specialOperations = EnumSet.of(Token.ABS, Token.SQARE, Token.MOD);
     private Token curToken;
     private Operation<T> operation;
 
-    public Tokenizer(String expression, Operation<T> operation) {
+    Tokenizer(String expression, Operation<T> operation) {
         this.expression = expression;
         this.index = 0;
         this.curToken = Token.BEGIN;
@@ -30,24 +30,23 @@ public class Tokenizer<T> {
         this.operation = operation;
     }
 
-    public T getValue() {
+    T getValue() {
         return value;
     }
 
-    public String getVarName() {
+    String getVarName() {
         return varName;
     }
 
-    public Token getCurToken() {
+    Token getCurToken() {
         return curToken;
     }
 
-    public Token getNextToken() throws ParsingException, OverflowException {
+    void getNextToken() throws ParsingException, OverflowException {
         nextToken();
-        return curToken;
     }
 
-    public int getIndex() {
+    int getIndex() {
         return index;
     }
 
@@ -106,9 +105,11 @@ public class Tokenizer<T> {
                         index++;
                         String temp = getNumber();
                         try {
-                            value = operation.parseNumber("-" + temp);
+                            value = operation.toCurrentMode("-" + temp);
                         } catch (NumberFormatException e) {
                             throw new OverflowException();
+                        } catch (EvaluateException e) {
+                            e.printStackTrace();
                         }
                         curToken = Token.NUMBER;
                     } else {
@@ -147,9 +148,11 @@ public class Tokenizer<T> {
                     String curNumber = getNumber();
                     index++;
                     try {
-                        value = operation.parseNumber(curNumber);
+                        value = operation.toCurrentMode(curNumber);
                     } catch (NumberFormatException e) {
                         throw new OverflowException();
+                    } catch (EvaluateException e) {
+                        e.printStackTrace();
                     }
                     curToken = Token.NUMBER;
                     index--;
@@ -188,7 +191,7 @@ public class Tokenizer<T> {
     private boolean checkForSpecialOperations() {
         for (Token x : specialOperations) {
             String s = getOperation(x);
-            if (expression.startsWith(s)) {
+            if (expression.startsWith(s, index)) {
                 curToken = x;
                 index += (s.length() - 1);
                 return true;
@@ -201,6 +204,10 @@ public class Tokenizer<T> {
         switch (x) {
             case ABS:
                 return "abs";
+            case SQARE:
+                return "square";
+            case MOD:
+                return "mod";
             default:
                 return "";
         }

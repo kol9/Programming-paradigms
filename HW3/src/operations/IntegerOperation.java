@@ -4,6 +4,7 @@ import exceptions.EvaluateException;
 import exceptions.IllegalOperationException;
 import exceptions.OverflowException;
 
+
 /**
  * @author Nikolay Yarlychenko
  */
@@ -85,8 +86,30 @@ public class IntegerOperation implements Operation<Integer> {
         return -x;
     }
 
+
     @Override
-    public Integer parseNumber(String s) {
-        return Integer.parseInt(s);
+    public Integer abs(Integer x) throws OverflowException {
+        if (x > 0) return x;
+        else return neg(x);
+    }
+
+    @Override
+    public Integer square(Integer x) throws OverflowException {
+        return mul(x, x);
+    }
+
+    public Integer mod(Integer x, Integer y) {
+        return x % y;
+    }
+
+
+    @Override
+    public Integer toCurrentMode(String s) throws EvaluateException {
+        try {
+            return Integer.parseInt(s);
+        } catch (NumberFormatException e) {
+            throw new EvaluateException("Number format error");
+
+        }
     }
 }
