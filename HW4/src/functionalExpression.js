@@ -22,7 +22,7 @@ function cnst(value) {
 
 const unaryOperation = f => (arg) => {
     return (x, y, z) => {
-        return f(arg)(x, y, z);
+        return f(arg(x, y, z));
     }
 };
 
