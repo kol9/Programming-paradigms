@@ -8,9 +8,9 @@ import operations.Operation;
  */
 public abstract class AbstractUnaryOperation<T> implements TripleExpression<T> {
     private TripleExpression<T> operand;
-    Operation<T> operation;
+    protected Operation<T> operation;
 
-    public AbstractUnaryOperation(TripleExpression<T> operand, Operation<T> operation) {
+    AbstractUnaryOperation(TripleExpression<T> operand, Operation<T> operation) {
         this.operand = operand;
         this.operation = operation;
     }

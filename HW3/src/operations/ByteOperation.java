@@ -1,10 +1,6 @@
 package operations;
 
 import exceptions.EvaluateException;
-import exceptions.OverflowException;
-import exceptions.ParsingException;
-
-import java.nio.ByteBuffer;
 
 /**
  * @author Nikolay Yarlychenko
@@ -17,17 +13,17 @@ public class ByteOperation implements Operation<Byte> {
     }
 
     @Override
-    public Byte add(Byte x, Byte y) throws OverflowException {
+    public Byte add(Byte x, Byte y) {
         return (byte) (x + y);
     }
 
     @Override
-    public Byte sub(Byte x, Byte y) throws OverflowException {
+    public Byte sub(Byte x, Byte y) {
         return (byte) (x - y);
     }
 
     @Override
-    public Byte mul(Byte x, Byte y) throws OverflowException {
+    public Byte mul(Byte x, Byte y) {
         return (byte) (x * y);
     }
 
@@ -39,17 +35,17 @@ public class ByteOperation implements Operation<Byte> {
 
 
     @Override
-    public Byte neg(Byte x) throws OverflowException {
+    public Byte neg(Byte x) {
         return (byte) (-x);
     }
 
     @Override
-    public Byte abs(Byte x) throws OverflowException {
+    public Byte abs(Byte x) {
         return (byte) (Math.abs(x));
     }
 
     @Override
-    public Byte square(Byte x) throws OverflowException {
+    public Byte square(Byte x) {
         return (byte) (x * x);
     }
 
@@ -60,7 +56,7 @@ public class ByteOperation implements Operation<Byte> {
     }
 
     @Override
-    public Byte toCurrentMode(String s) throws EvaluateException {
+    public Byte toCurrentMode(String s) {
         try {
             return Byte.parseByte(s);
         } catch (NumberFormatException ignored) {

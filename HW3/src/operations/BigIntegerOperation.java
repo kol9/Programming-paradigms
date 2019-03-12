@@ -2,7 +2,6 @@ package operations;
 
 
 import exceptions.EvaluateException;
-import exceptions.OverflowException;
 
 import java.math.BigInteger;
 
@@ -46,8 +45,12 @@ public class BigIntegerOperation implements Operation<BigInteger> {
 
     @Override
     public BigInteger abs(BigInteger x) {
-        if (x.compareTo(BigInteger.ZERO) > 0) return x;
-        else return neg(x);
+        if (x.compareTo(BigInteger.ZERO) > 0) {
+            return x;
+        }
+        else {
+            return neg(x);
+        }
     }
 
     @Override

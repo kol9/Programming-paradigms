@@ -13,27 +13,26 @@ function variable(varName) {
     };
 }
 
-
-function toFunction(a, x, y, z) {
-    if (typeof a === "function") {
-        return a(x, y, z);
+function toFunction(arg, x, y, z) {
+    if (typeof arg === "function") {
+        return arg(x, y, z);
     } else {
-        return a;
+        return arg;
     }
 }
 
-const unaryOperation = f => (a) => {
+
+const unaryOperation = f => (arg) => {
     return (x, y, z) => {
-        let apply = toFunction(a, x, y, z);
+        let apply = toFunction(arg, x, y, z);
         return f(apply);
     }
 };
 
-
-const binaryOperation = f => (a, b) => {
+const binaryOperation = f => (arg1, arg2) => {
     return (x, y, z) => {
-        let first = toFunction(a, x, y, z);
-        let second = toFunction(b, x, y, z);
+        let first = toFunction(arg1, x, y, z);
+        let second = toFunction(arg2, x, y, z);
         return f(first, second);
     }
 };

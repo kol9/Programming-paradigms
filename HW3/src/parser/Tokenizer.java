@@ -18,7 +18,7 @@ public class Tokenizer<T> {
     private T value;
     private String varName;
     private Set<Token> defaultOperations = EnumSet.of(Token.ADD, Token.MUL, Token.DIV, Token.SUB);
-    private Set<Token> specialOperations = EnumSet.of(Token.ABS, Token.SQARE, Token.MOD);
+    private Set<Token> specialOperations = EnumSet.of(Token.ABS, Token.SQUARE, Token.MOD);
     private Token curToken;
     private Operation<T> operation;
 
@@ -193,18 +193,19 @@ public class Tokenizer<T> {
             String s = getOperation(x);
             if (expression.startsWith(s, index)) {
                 curToken = x;
-                index += (s.length() - 1);
+                int operationLength = (s.length() - 1);
+                index += operationLength;
                 return true;
             }
         }
         return false;
     }
 
-    private String getOperation(Token x) {
-        switch (x) {
+    private String getOperation(Token token) {
+        switch (token) {
             case ABS:
                 return "abs";
-            case SQARE:
+            case SQUARE:
                 return "square";
             case MOD:
                 return "mod";

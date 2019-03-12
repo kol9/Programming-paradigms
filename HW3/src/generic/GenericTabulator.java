@@ -53,6 +53,7 @@ public class GenericTabulator implements Tabulator {
     private <T> Object[][][] getArray(Operation<T> mode, String expression, int x1, int x2, int y1, int y2, int z1, int z2) {
 
         Object[][][] res = new Object[x2 - x1 + 1][y2 - y1 + 1][z2 - z1 + 1];
+
         if (mode == null) {
             return res;
         }
@@ -65,12 +66,14 @@ public class GenericTabulator implements Tabulator {
             return res;
         }
 
-
         for (int i = x1; i <= x2; i++) {
             for (int j = y1; j <= y2; j++) {
                 for (int k = z1; k <= z2; k++) {
                     try {
-                        res[i - x1][j - y1][k - z1] = currentExpression.evaluate(mode.toCurrentMode(Integer.toString(i)), mode.toCurrentMode(Integer.toString(j)), mode.toCurrentMode(Integer.toString(k)));
+                        res[i - x1][j - y1][k - z1] = currentExpression.evaluate(
+                                mode.toCurrentMode(Integer.toString(i)),
+                                mode.toCurrentMode(Integer.toString(j)),
+                                mode.toCurrentMode(Integer.toString(k)));
                     } catch (EvaluateException e) {
                         res[i - x1][j - y1][k - z1] = null;
                     }

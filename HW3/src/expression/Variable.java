@@ -11,10 +11,10 @@ public class Variable<T> implements TripleExpression<T> {
     }
 
     public T evaluate(T x, T y, T z) {
-        if (varName.equals("x")) {
+        if ("x".equals(varName)) {
             return x;
         }
-        if (varName.equals("y")) {
+        if ("y".equals(varName)) {
             return y;
         }
         return z;

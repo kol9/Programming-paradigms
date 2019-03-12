@@ -9,7 +9,7 @@ import exceptions.OverflowException;
  * @author Nikolay Yarlychenko
  */
 public class IntegerOperation implements Operation<Integer> {
-    boolean isChecked;
+    private boolean isChecked;
 
     public IntegerOperation(boolean isChecked) {
         this.isChecked = isChecked;
@@ -25,8 +25,8 @@ public class IntegerOperation implements Operation<Integer> {
     }
 
     private void checkSub(Integer x, Integer y) throws OverflowException {
-        if ((x >= 0 && y < 0 && x - Integer.MAX_VALUE > y) ||
-                (x <= 0 && y > 0 && Integer.MIN_VALUE - x > -y)) {
+        if ((x >= 0 && y < 0 && x - Integer.MAX_VALUE > y)
+                || (x <= 0 && y > 0 && Integer.MIN_VALUE - x > -y)) {
             throw new OverflowException();
         }
     }
@@ -99,11 +99,13 @@ public class IntegerOperation implements Operation<Integer> {
         return -x;
     }
 
-
     @Override
     public Integer abs(Integer x) throws OverflowException {
-        if (x > 0) return x;
-        else return neg(x);
+        if (x > 0) {
+            return x;
+        } else {
+            return neg(x);
+        }
     }
 
     @Override
@@ -112,7 +114,7 @@ public class IntegerOperation implements Operation<Integer> {
     }
 
     public Integer mod(Integer x, Integer y) throws OverflowException, IllegalOperationException {
-        checkDiv(x,y);
+        checkDiv(x, y);
         return x % y;
     }
 

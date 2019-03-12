@@ -2,7 +2,6 @@ package operations;
 
 
 import exceptions.EvaluateException;
-import exceptions.OverflowException;
 
 /**
  * @author Nikolay Yarlychenko
@@ -35,16 +34,15 @@ public class DoubleOperation implements Operation<Double> {
     }
 
     @Override
-    public Double abs(Double x) throws OverflowException {
-
+    public Double abs(Double x) {
         return Math.abs(x);
     }
 
-    public Double square(Double x) throws OverflowException {
+    public Double square(Double x) {
         return x * x;
     }
 
-    public Double mod(Double x, Double y) throws OverflowException {
+    public Double mod(Double x, Double y) {
         return x % y;
     }
 

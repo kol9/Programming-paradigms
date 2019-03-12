@@ -9,7 +9,7 @@ import operations.Operation;
 public abstract class AbstractBinaryOperation<T> implements TripleExpression<T> {
     private TripleExpression<T> first;
     private TripleExpression<T> second;
-    Operation<T> operation;
+    protected Operation<T> operation;
 
     AbstractBinaryOperation(TripleExpression<T> first, TripleExpression<T> second, Operation<T> operation) {
         this.first = first;

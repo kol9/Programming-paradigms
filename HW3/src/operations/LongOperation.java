@@ -1,10 +1,6 @@
 package operations;
 
 
-import exceptions.OverflowException;
-
-import java.math.BigInteger;
-
 /**
  * @author Nikolay Yarlychenko
  */
@@ -28,7 +24,7 @@ public class LongOperation implements Operation<Long> {
     }
 
     @Override
-    public Long div(Long x, Long y) throws OverflowException {
+    public Long div(Long x, Long y) {
         return x / y;
     }
 
@@ -38,16 +34,19 @@ public class LongOperation implements Operation<Long> {
     }
 
     @Override
-    public Long abs(Long x) throws OverflowException {
-        if (x > 0) return x;
-        else return neg(x);
+    public Long abs(Long x) {
+        if (x > 0) {
+            return x;
+        } else {
+            return neg(x);
+        }
     }
 
-    public Long square(Long x) throws OverflowException {
+    public Long square(Long x) {
         return x * x;
     }
 
-    public Long mod(Long x, Long y) throws OverflowException {
+    public Long mod(Long x, Long y) {
         return x % y;
     }
 

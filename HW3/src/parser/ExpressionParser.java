@@ -1,8 +1,11 @@
 package parser;
 
-import expression.*;
-import exceptions.*;
+import exceptions.BracketsException;
+import exceptions.MissingArgumentException;
+import exceptions.OverflowException;
+import exceptions.ParsingException;
 import operations.Operation;
+import expression.*;
 
 import static exceptions.ParsingException.errorMessage;
 
@@ -11,7 +14,7 @@ import static exceptions.ParsingException.errorMessage;
  */
 public class ExpressionParser<T> implements Parser<T> {
 
-    private Tokenizer<T> t;
+    private Tokenizer<T> tokenizer;
     private Operation<T> curOperation;
 
     public ExpressionParser(Operation<T> curOperation) {
@@ -20,16 +23,16 @@ public class ExpressionParser<T> implements Parser<T> {
 
 
     private TripleExpression<T> unary() throws ParsingException, OverflowException {
-        t.getNextToken();
+        tokenizer.getNextToken();
         TripleExpression<T> res;
-        switch (t.getCurToken()) {
+        switch (tokenizer.getCurToken()) {
             case NUMBER:
-                res = new Const<>(t.getValue());
-                t.getNextToken();
+                res = new Const<>(tokenizer.getValue());
+                tokenizer.getNextToken();
                 break;
             case VARIABLE:
-                res = new Variable<>(t.getVarName());
-                t.getNextToken();
+                res = new Variable<>(tokenizer.getVarName());
+                tokenizer.getNextToken();
                 break;
             case NEGATE:
                 res = new Negate<>(unary(), curOperation);
@@ -37,18 +40,18 @@ public class ExpressionParser<T> implements Parser<T> {
             case ABS:
                 res = new Abs<>(unary(), curOperation);
                 break;
-            case SQARE:
+            case SQUARE:
                 res = new Square<>(unary(), curOperation);
                 break;
             case OPEN_BRACE:
                 res = addSub();
-                if (t.getCurToken() != Token.CLOSE_BRACE) {
+                if (tokenizer.getCurToken() != Token.CLOSE_BRACE) {
                     throw new BracketsException("Wrong brackets sequence");
                 }
-                t.getNextToken();
+                tokenizer.getNextToken();
                 break;
             default:
-                throw new MissingArgumentException("Expected argument: " + errorMessage(t.getExpression(), t.getIndex(), true));
+                throw new MissingArgumentException("Expected argument: " + errorMessage(tokenizer.getExpression(), tokenizer.getIndex(), true));
 
         }
         return res;
@@ -57,7 +60,7 @@ public class ExpressionParser<T> implements Parser<T> {
     private TripleExpression<T> mulDiv() throws ParsingException, OverflowException {
         TripleExpression<T> res = unary();
         do {
-            switch (t.getCurToken()) {
+            switch (tokenizer.getCurToken()) {
                 case MOD:
                     res = new Mod<>(res, unary(), curOperation);
                     break;
@@ -76,7 +79,7 @@ public class ExpressionParser<T> implements Parser<T> {
     private TripleExpression<T> addSub() throws ParsingException, OverflowException {
         TripleExpression<T> res = mulDiv();
         do {
-            switch (t.getCurToken()) {
+            switch (tokenizer.getCurToken()) {
                 case ADD:
                     res = new Add<>(res, mulDiv(), curOperation);
                     break;
@@ -92,7 +95,7 @@ public class ExpressionParser<T> implements Parser<T> {
 
 
     public TripleExpression<T> parse(String expression) throws ParsingException, OverflowException {
-        t = new Tokenizer<>(expression, curOperation);
+        tokenizer = new Tokenizer<>(expression, curOperation);
         return addSub();
     }
 
