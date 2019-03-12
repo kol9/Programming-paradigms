@@ -37,3 +37,7 @@ const subtract = binaryOperation((a, b) => (a - b));
 const multiply = binaryOperation((a, b) => (a * b));
 const divide = binaryOperation((a, b) => (a / b));
 const negate = unaryOperation(a => -a);
+const one = cnst(1);
+const two = cnst(2);
+
+
