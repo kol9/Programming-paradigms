@@ -1,13 +1,7 @@
 "use strict";
 
 function variable(varName) {
-    return (x, y = 0, z = 0) => {
-        // let arr = Object.values(varValues);
-        // // println(arr);
-        // let x = arr[0];
-        // let y = arr[1];
-        // let z = arr[2];
-
+    return (x, y, z) => {
         switch (varName) {
             case 'x':
                 return x;
@@ -28,9 +22,9 @@ function toFunction(a, x, y, z) {
     }
 }
 
-let unaryOperation = f => (a) => {
+const unaryOperation = f => (a) => {
     return (x, y, z) => {
-        let apply = toFunction(a,x,y,z);
+        let apply = toFunction(a, x, y, z);
         return f(apply);
     }
 };
@@ -38,27 +32,17 @@ let unaryOperation = f => (a) => {
 
 const binaryOperation = f => (a, b) => {
     return (x, y, z) => {
-        let c = toFunction(a,x,y,z);
-        let d = toFunction(b,x,y,z);
-        // a = toFunction(a, x, y, z);
-        // b = toFunction(b, x, y, z);
-        return f(c, d);
+        let first = toFunction(a, x, y, z);
+        let second = toFunction(b, x, y, z);
+        return f(first, second);
     }
 };
 
-//
-let add = binaryOperation((a, b) => (a + b));
-let subtract = binaryOperation((a, b) => (a - b));
-let multiply = binaryOperation((a, b) => (a * b));
-let divide = binaryOperation((a, b) => (a / b));
-let negate = unaryOperation(a => -a);
-let cnst = unaryOperation(a => a);
-
-// let expr1 = add(variable('x'), cnst(2));
-// let expr2 = add(cnst(3), variable("x"));
-// println(expr1(2, 0, 0));
-// println(expr1(3, 0, 0));
-// println(expr2(5, 0, 0));
-// println(expr2(228, 0, 0));
+const add = binaryOperation((a, b) => (a + b));
+const subtract = binaryOperation((a, b) => (a - b));
+const multiply = binaryOperation((a, b) => (a * b));
+const divide = binaryOperation((a, b) => (a / b));
+const negate = unaryOperation(a => -a);
+const cnst = unaryOperation(a => a);
 
 
