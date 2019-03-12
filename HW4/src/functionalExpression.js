@@ -13,27 +13,22 @@ function variable(varName) {
     };
 }
 
-function toFunction(arg, x, y, z) {
-    if (typeof arg === "function") {
-        return arg(x, y, z);
-    } else {
-        return arg;
+function cnst(value) {
+    return (x, y, z) => {
+        return value;
     }
 }
 
 
 const unaryOperation = f => (arg) => {
     return (x, y, z) => {
-        let apply = toFunction(arg, x, y, z);
-        return f(apply);
+        return f(arg)(x, y, z);
     }
 };
 
 const binaryOperation = f => (arg1, arg2) => {
     return (x, y, z) => {
-        let first = toFunction(arg1, x, y, z);
-        let second = toFunction(arg2, x, y, z);
-        return f(first, second);
+        return f(arg1(x, y, z), arg2(x, y, z));
     }
 };
 
@@ -42,6 +37,3 @@ const subtract = binaryOperation((a, b) => (a - b));
 const multiply = binaryOperation((a, b) => (a * b));
 const divide = binaryOperation((a, b) => (a / b));
 const negate = unaryOperation(a => -a);
-const cnst = unaryOperation(a => a);
-
-
