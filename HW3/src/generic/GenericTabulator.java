@@ -46,7 +46,6 @@ public class GenericTabulator implements Tabulator {
             default:
                 result = null;
         }
-
         return result;
     }
 
@@ -58,7 +57,7 @@ public class GenericTabulator implements Tabulator {
             return res;
         }
 
-        Parser<T> parser = new ExpressionParser(mode);
+        Parser<T> parser = new ExpressionParser<>(mode);
         TripleExpression<T> currentExpression;
         try {
             currentExpression = parser.parse(expression);

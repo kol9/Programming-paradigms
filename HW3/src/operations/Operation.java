@@ -24,5 +24,5 @@ public interface Operation<T> {
 
     T mod(T x, T y) throws EvaluateException;
 
-    T toCurrentMode(String s) throws EvaluateException;
+    T toCurrentMode(String x) throws EvaluateException;
 }
