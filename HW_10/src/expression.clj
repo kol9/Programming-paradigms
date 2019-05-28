@@ -128,8 +128,6 @@
 (defn iconj [coll value] (if (= value 'ignore) coll (conj coll value)))
 (defn +seq [& ps] (reduce (partial _combine iconj) (_empty []) ps))
 (defn +seqf [f & ps] (+map (partial apply f) (apply +seq ps)))
-(defn +seqn [n & ps] (apply +seqf (fn [& vs] (nth vs n)) ps))
-(defn +or [p & ps] (reduce (partial _either) p ps))
 (defn +opt [p] (+or p (_empty nil)))
 (defn +star [p] (letfn [(rec [] (+or (+seqf cons p (delay (rec))) (_empty ())))] (rec)))
 (defn +plus [p] (+seqf cons p (+star p)))
